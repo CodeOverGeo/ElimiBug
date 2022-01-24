@@ -1,0 +1,13 @@
+Tech Stack: PERN - PostgreSQL, Express, React, Node.js
+
+Goal is to make a evenly focused full stack single page website for bug tracking.
+Website should be able to track bugs through the lifecycle of a project. 
+Bug will be submitted, approved, set to in progress, tested, submitted for released, and released.
+Feature set should include assigning bugs to a person and comment capture for bugs.
+
+Demographic is any person or company that wants to track bugs before or after a project released.
+
+Create an api that serves up bug status being tracked in a PostgreSQL database.
+
+Users should be regular for submission and admin to approve and add and delete users.
+
