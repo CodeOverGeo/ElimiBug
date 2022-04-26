@@ -31,15 +31,17 @@ CREATE TABLE "Bug" (
   "project" varchar NOT NULL,
   "description" varchar NOT NULL,
   "prority" priority,
-  -- 'user_id is the user assigned to bug, field is nullable, admin approval needed'
+  -- user_id is the user assigned to bug, field is nullable, admin approval needed
   "user_id" int,
   -- exp_comp_date is expected completion date, field is nullable, admin approval needed
-  "exp_comp_date" date
+  "exp_comp_date" date,
+  "last_status" bug_status
   
 );
 
 CREATE TABLE "Status" (
   "id" SERIAL PRIMARY KEY,
+  "user_id" int,
   "bug_id" int,
   "date" date NOT NULL,
   "bug_status" bug_status
