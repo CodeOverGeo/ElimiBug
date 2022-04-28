@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.company.com/bugSearch.schema.json",
+  "type": "object",
+  "properties": {
+    "bugName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "priority": {
+      "type": "string"
+    },
+    "lastStatus": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": []
+}

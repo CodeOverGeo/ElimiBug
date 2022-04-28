@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.company.com/bugNew.schema.json",
+  "type": "object",
+  "properties": {
+    "bug_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30
+    },
+    "description": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "integer"
+    },
+    "exp_comp_date": {
+      "type": "string"
+    },
+    "last_status": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": []
+}

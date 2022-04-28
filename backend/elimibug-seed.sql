@@ -1,0 +1,33 @@
+INSERT INTO users (username, password, first_name, last_name, email, is_admin)
+VALUES ('testuser',
+        '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
+        'Test',
+        'User',
+        'james@elimibug.com',
+        FALSE),
+       ('testadmin',
+        '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
+        'Test',
+        'Admin!',
+        'susan@elimibug.com',
+        TRUE);
+
+INSERT INTO bug (project, bug_name, description, priority, user_id, last_status)
+VALUES ('Rate The Charge',
+        'Stars color',
+        'Stars are incorrect color while rating stations',
+        'low',
+        1,
+        'submitted'),
+        ('Rate The Charge',
+        'Maps Size',
+        'Map is too large for screen',
+        'medium',
+        1,
+        'in_progress'),
+        ('Amibo Allstars',
+        'Upsidedown Amibos',
+        'Amibos render upside-down on search page',
+        'high',
+        2,
+        'tested')

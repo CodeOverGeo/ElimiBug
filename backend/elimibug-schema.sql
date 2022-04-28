@@ -15,39 +15,40 @@ CREATE TYPE "priority" AS ENUM (
   'low'
 );
 
-CREATE TABLE "Users" (
+CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,
-  "user_name" varchar UNIQUE NOT NULL,
-  "encrypted_password" varchar(20) NOT NULL,
+  "username" varchar UNIQUE NOT NULL,
+  "password" varchar NOT NULL,
   "email" varchar NOT NULL,
-  "date_joined" timestamp NOT NULL,
   "first_name" varchar NOT NULL,
   "last_name" varchar NOT NULL,
-  "admin" boolean NOT NULL
+  "is_admin" boolean NOT NULL DEFAULT 'FALSE'
 );
 
-CREATE TABLE "Bug" (
+CREATE TABLE "bug" (
   "id" SERIAL PRIMARY KEY,
   "project" varchar NOT NULL,
+  "bug_name" varchar NOt NULL,
   "description" varchar NOT NULL,
-  "prority" priority,
+  "priority" priority,
   -- user_id is the user assigned to bug, field is nullable, admin approval needed
-  "user_id" int,
-  -- exp_comp_date is expected completion date, field is nullable, admin approval needed
-  "exp_comp_date" date,
+  "user_id" int
+    REFERENCES "users" On DELETE CASCADE,
   "last_status" bug_status
   
 );
 
-CREATE TABLE "Status" (
+CREATE TABLE "status" (
   "id" SERIAL PRIMARY KEY,
-  "user_id" int,
-  "bug_id" int,
+  "user_id" int
+  REFERENCES "users" ON DELETE CASCADE,
+  "bug_id" int
+  REFERENCEs "bug" ON DELETE CASCADE,
   "date" date NOT NULL,
   "bug_status" bug_status
 );
 
-CREATE TABLE "Comment" (
+CREATE TABLE "comment" (
   "id" SERIAL PRIMARY KEY,
   "bug_id" int,
   "user_id" int,
@@ -55,12 +56,7 @@ CREATE TABLE "Comment" (
   "date" date NOT NULL
 );
 
-ALTER TABLE "Bug" ADD FOREIGN KEY ("id") REFERENCES "Status" ("bug_id");
 
-ALTER TABLE "Bug" ADD FOREIGN KEY ("id") REFERENCES "Comment" ("bug_id");
 
-ALTER TABLE "Users" ADD FOREIGN KEY ("id") REFERENCES "Comment" ("user_id");
+COMMENT ON COLUMN "bug"."user_id" IS 'User assigned to bug, nullable, admin approval needed';
 
-COMMENT ON COLUMN "Bug"."user_id" IS 'User assigned to bug, nullable, admin approval needed';
-
-COMMENT ON COLUMN "Bug"."exp_comp_date" IS 'nullable, admin approval needed';
