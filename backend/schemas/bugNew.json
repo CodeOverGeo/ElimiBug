@@ -3,7 +3,7 @@
   "$id": "http://our.company.com/bugNew.schema.json",
   "type": "object",
   "properties": {
-    "bug_name": {
+    "bugName": {
       "type": "string",
       "minLength": 1,
       "maxLength": 30
@@ -19,13 +19,7 @@
     "priority": {
       "type": "string"
     },
-    "user_id": {
-      "type": "integer"
-    },
-    "exp_comp_date": {
-      "type": "string"
-    },
-    "last_status": {
+    "lastStatus": {
       "type": "string"
     }
   },

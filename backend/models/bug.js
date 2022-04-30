@@ -31,7 +31,7 @@ class Bug {
       `INSERT INTO bug
            (bug_name, project, description, priority, last_status)
            VALUES ($1, $2, $3, $4, $5)
-           RETURNING bug_name AS "bugName", project, description, priority, last_status AS 'lastStatus`,
+           RETURNING id, bug_name AS "bugName", project, description, priority, last_status AS "lastStatus"`,
       [bugName, project, description, priority, status]
     );
     const bug = result.rows[0];
@@ -48,11 +48,12 @@ class Bug {
    *
    *
    *
-   * Returns [{ bug_name, project, description, priority, last_status }, ...]
+   * Returns [{ id, bug_name, project, description, priority, last_status }, ...]
    * */
 
   static async findAll(searchFilters = {}) {
-    let query = `SELECT bug_name,
+    let query = `SELECT id,
+                        bug_name,
                         project,
                         description,
                         priority,
@@ -90,7 +91,7 @@ class Bug {
     // Finalize query and return results
 
     // query += ' ORDER BY priority';
-    console.log(query, queryValues);
+
     const bugRes = await db.query(query, queryValues);
     return bugRes.rows;
   }
@@ -105,7 +106,9 @@ class Bug {
 
   static async get(id) {
     const bugRes = await db.query(
-      `SELECT bug_name AS bugName,
+      `SELECT 
+        id,
+        bug_name AS bugName,
         project,
         description,
         priority,
@@ -135,6 +138,7 @@ class Bug {
    */
 
   static async update(id, data) {
+    console.log('inside');
     const { setCols, values } = sqlForPartialUpdate(data, {
       bugName: 'bug_name',
       lastStatus: 'last_status',
@@ -144,11 +148,13 @@ class Bug {
     const querySql = `UPDATE bug 
                       SET ${setCols} 
                       WHERE id = ${idVarIdx} 
-                      RETURNING bug_name AS bugName,  
+                      RETURNING 
+                                id,          
+                                bug_name AS bugName,  
                                 description, 
                                 project,
                                 last_status AS lastStatus`;
-    const result = await db.query(querySql, [...values, bugName]);
+    const result = await db.query(querySql, [...values, id]);
     const bug = result.rows[0];
 
     if (!bug) throw new NotFoundError(`No bug: ${bugName}`);
@@ -161,17 +167,18 @@ class Bug {
    * Throws NotFoundError if bug not found.
    **/
 
-  static async remove(bugName) {
+  static async remove(id) {
     const result = await db.query(
       `DELETE
            FROM bug
-           WHERE bug_name = $1
-           RETURNING bug_name`,
-      [bugName]
+           WHERE id = $1
+           RETURNING id, bug_name`,
+      [id]
     );
     const bug = result.rows[0];
 
-    if (!bug) throw new NotFoundError(`No bug: ${bugName}`);
+    if (!bug) throw new NotFoundError(`No bug: ${id}`);
+    return bug;
   }
 }
 

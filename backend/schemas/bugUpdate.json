@@ -9,10 +9,8 @@
     "priority": {
       "type": "string"
     },
-    "last_status": {
-      "last_status": {
-        "type": "string"
-      }
+    "lastStatus": {
+      "type": "string"
     }
   },
 

@@ -24,7 +24,8 @@ const router = new express.Router();
  * Authorization required: admin
  */
 
-router.post('/', ensureAdmin, async function (req, res, next) {
+router.post('/', async function (req, res, next) {
+  console.log(req);
   try {
     const validator = jsonschema.validate(req.body, bugNewSchema);
     if (!validator.valid) {
@@ -95,33 +96,40 @@ router.get('/:id', async function (req, res, next) {
  * Authorization required: admin
  */
 
-router.patch('/:id', ensureAdmin, async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body, bugUpdateSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
-      throw new BadRequestError(errs);
-    }
+router.patch(
+  '/:id',
+  /**ensureAdmin, */ async function (req, res, next) {
+    try {
+      const validator = jsonschema.validate(req.body, bugUpdateSchema);
+      if (!validator.valid) {
+        const errs = validator.errors.map((e) => e.stack);
+        throw new BadRequestError(errs);
+      }
 
-    const Bug = await Bug.update(req.params.id, req.body);
-    return res.json({ Bug });
-  } catch (err) {
-    return next(err);
+      const bug = await Bug.update(req.params.id, req.body);
+      return res.json({ bug });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 /** DELETE /[bugName]  =>  { deleted: handle }
  *
  * Authorization: admin
  */
 
-router.delete('/:id', ensureAdmin, async function (req, res, next) {
-  try {
-    await Bug.remove(req.params.id);
-    return res.json({ deleted: req.params.bugName });
-  } catch (err) {
-    return next(err);
+router.delete(
+  '/:id',
+  /** ensureAdmin, */ async function (req, res, next) {
+    try {
+      const delBug = await Bug.remove(req.params.id);
+      console.log(delBug);
+      return res.json({ deleted: delBug.bug_name });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 module.exports = router;
