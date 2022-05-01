@@ -1,3 +1,5 @@
+-- both test users have the password "password"
+
 INSERT INTO users (username, password, first_name, last_name, email, is_admin)
 VALUES ('testuser',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
@@ -30,4 +32,17 @@ VALUES ('Rate The Charge',
         'Amibos render upside-down on search page',
         'high',
         2,
-        'tested')
+        'tested'),
+        ('Hungry Teapot',
+        'Sticky Footer',
+        'Footer is sticky to bottom of window instead of staying on bottom of page',
+        'low',
+        2,
+        'approved'
+        ),
+        ('Hungry Teapot',
+        'Full Cactus Error',
+        'Teapot displays a 418 error whenever it is full',
+        'medium',
+        1,
+        'ready_for_release')

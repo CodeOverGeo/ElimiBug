@@ -53,18 +53,16 @@ class Bug {
 
   static async findAll(searchFilters = {}) {
     let query = `SELECT id,
-                        bug_name,
+                        bug_name AS "bugName",
                         project,
                         description,
                         priority,
-                        last_status
+                        last_status AS "lastStatus"
                  FROM bug`;
     let whereExpressions = [];
     let queryValues = [];
 
-    const { priority, lastStatus, bugName } = searchFilters;
-
-    console.log(priority);
+    const { project, priority, lastStatus, bugName } = searchFilters;
 
     // For each possible search term, add to whereExpressions and queryValues so
     // we can generate the right SQL
@@ -77,6 +75,11 @@ class Bug {
     if (lastStatus !== undefined) {
       queryValues.push(`${lastStatus}`);
       whereExpressions.push(`last_status = $${queryValues.length}`);
+    }
+
+    if (project) {
+      queryValues.push(`${project}`);
+      whereExpressions.push(`project = $${queryValues.length}`);
     }
 
     if (bugName !== undefined) {
@@ -93,6 +96,7 @@ class Bug {
     // query += ' ORDER BY priority';
 
     const bugRes = await db.query(query, queryValues);
+
     return bugRes.rows;
   }
 
@@ -108,11 +112,11 @@ class Bug {
     const bugRes = await db.query(
       `SELECT 
         id,
-        bug_name AS bugName,
+        bug_name AS "bugName",
         project,
         description,
         priority,
-        last_status AS lastStatus
+        last_status AS "lastStatus"
       FROM bug
       WHERE id = $1`,
       [id]
@@ -123,6 +127,29 @@ class Bug {
     if (!bug) throw new NotFoundError(`No bug: ${bugName}`);
 
     return bug;
+  }
+
+  /** Given a project name, return data about project.
+   *
+   * Returns { bug_name, description, project, priority, last_status }
+   *   where jobs is [{ id, title, salary, equity }, ...]
+   *
+   * Throws NotFoundError if not found.
+   **/
+
+  static async projectLookup() {
+    const projectRes = await db.query(
+      `SELECT 
+          DISTINCT project,
+          COUNT("bug_name")
+        FROM bug
+        GROUP BY project`
+    );
+    console.log(projectRes);
+
+    const projects = projectRes.rows;
+
+    return projects;
   }
 
   /** Update bug data with `data`.
@@ -138,7 +165,6 @@ class Bug {
    */
 
   static async update(id, data) {
-    console.log('inside');
     const { setCols, values } = sqlForPartialUpdate(data, {
       bugName: 'bug_name',
       lastStatus: 'last_status',
@@ -150,10 +176,10 @@ class Bug {
                       WHERE id = ${idVarIdx} 
                       RETURNING 
                                 id,          
-                                bug_name AS bugName,  
+                                bug_name AS "bugName",  
                                 description, 
                                 project,
-                                last_status AS lastStatus`;
+                                last_status AS "lastStatus"`;
     const result = await db.query(querySql, [...values, id]);
     const bug = result.rows[0];
 
@@ -172,7 +198,7 @@ class Bug {
       `DELETE
            FROM bug
            WHERE id = $1
-           RETURNING id, bug_name`,
+           RETURNING id, bug_name AS "bugName"`,
       [id]
     );
     const bug = result.rows[0];

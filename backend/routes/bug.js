@@ -53,7 +53,6 @@ router.post('/', async function (req, res, next) {
 
 router.get('/', async function (req, res, next) {
   const q = req.query;
-
   try {
     const validator = jsonschema.validate(q, bugSearchSchema);
     if (!validator.valid) {
@@ -68,9 +67,19 @@ router.get('/', async function (req, res, next) {
   }
 });
 
+router.get('/project', async function (req, res, next) {
+  try {
+    const project = await Bug.projectLookup();
+
+    return res.json({ project });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 /** GET /[bugName]]  =>  { bug }
  *
- *  Bug is { bug_name, description, project, priority, lastStatus }
+ *  Bug is { id, bug_name, description, project, priority, lastStatus }
  *
  *
  * Authorization required: none

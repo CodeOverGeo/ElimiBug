@@ -19,7 +19,7 @@ class ElimibugApi {
 
     //there are multiple ways to pass an authorization token, this is how you pass it in the header.
     //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
-    const url = `${BASE_URL}/${endpoint}`;
+    const url = `${BASE_URL}/${endpoint}/`;
     const headers = { Authorization: `Bearer ${ElimibugApi.token}` };
     const params = method === 'get' ? data : {};
 
@@ -34,18 +34,27 @@ class ElimibugApi {
 
   // Individual API routes
 
-  /** Get list of all companies */
+  /** Get list of all bugs */
 
-  static async getBugs(name) {
-    let res = await this.request('bugs', { name });
-    return res.companies;
+  static async getBugs() {
+    let res = await this.request('bug');
+
+    return res.bug;
   }
 
-  /** Get details on a company by handle. */
+  /** Get details on a bug by id. */
 
-  static async getCompany(id) {
-    let res = await this.request(`bugs/${id}`);
-    return res.company;
+  static async getBug(id) {
+    let res = await this.request(`bug/${id}`);
+    return res.bug;
+  }
+
+  /** Get list of all projects */
+
+  static async getProjects() {
+    let res = await this.request('bug/project');
+    console.log(res.project);
+    return res.project;
   }
 
   /** User methods */
