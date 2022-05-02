@@ -1,5 +1,5 @@
 'use strict';
-/** Database setup for elimibug. */
+/**  Database setup for elimibug. */
 const { Client } = require('pg');
 const { getDatabaseUri } = require('./config');
 
