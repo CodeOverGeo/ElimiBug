@@ -11,7 +11,6 @@ function LoginForm({ login }) {
   async function handleSubmit(e) {
     e.preventDefault();
     let result = await login(formData);
-    // console.log(result);
     if (result.success) {
       navigate('/companies');
     } else {

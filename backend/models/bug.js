@@ -16,7 +16,13 @@ class Bug {
    * Throws BadRequestError if bug already in database.
    * */
 
-  static async create({ bugName, project, description, priority, status }) {
+  static async create({
+    bugName,
+    project,
+    description,
+    priority,
+    last_status,
+  }) {
     const duplicateCheck = await db.query(
       `SELECT bug_name
            FROM bug
@@ -25,14 +31,14 @@ class Bug {
     );
 
     if (duplicateCheck.rows[0])
-      throw new BadRequestError(`Duplicate bug: ${handle}`);
+      throw new BadRequestError(`Duplicate bug: ${bugName}`);
 
     const result = await db.query(
       `INSERT INTO bug
            (bug_name, project, description, priority, last_status)
            VALUES ($1, $2, $3, $4, $5)
            RETURNING id, bug_name AS "bugName", project, description, priority, last_status AS "lastStatus"`,
-      [bugName, project, description, priority, status]
+      [bugName, project, description, priority, last_status]
     );
     const bug = result.rows[0];
 
@@ -145,11 +151,28 @@ class Bug {
         FROM bug
         GROUP BY project`
     );
-    console.log(projectRes);
 
     const projects = projectRes.rows;
 
     return projects;
+  }
+
+  static async projectBugLookup(name) {
+    const projectBugRes = await db.query(
+      `SELECT 
+        id, 
+        project, 
+        bug_name AS "bugName", 
+        description, 
+        priority, 
+        last_status AS "lastStatus"
+      FROM bug
+      WHERE project = $1`,
+      [name]
+    );
+
+    const projectBugs = projectBugRes.rows;
+    return projectBugs;
   }
 
   /** Update bug data with `data`.

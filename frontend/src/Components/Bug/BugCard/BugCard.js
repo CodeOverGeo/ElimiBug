@@ -8,9 +8,10 @@ function BugCard({ bugName, project, description, priority, id, lastStatus }) {
     priority === 'low' ? 'blue' : priority === 'medium' ? 'green' : 'red';
 
   return (
-    <LinkContainer to={`/bugs/${id}`}>
+    <LinkContainer to={`/bug/${id}`}>
       <Card style={{ width: '70vw' }} className="BugCard">
         <Card.Header as="h5" style={{ backgroundColor: color, color: 'white' }}>
+          Priority:
           {priority}
         </Card.Header>
         <Card.Body>

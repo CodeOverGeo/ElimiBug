@@ -30,7 +30,7 @@ function ProjectList() {
       {projects.length ? (
         <div>
           {projects.map((p) => (
-            <ProjectCard name={p.project} count={p.count} />
+            <ProjectCard key={p.project} name={p.project} count={p.count} />
           ))}
         </div>
       ) : (

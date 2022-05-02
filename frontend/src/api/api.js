@@ -53,8 +53,27 @@ class ElimibugApi {
 
   static async getProjects() {
     let res = await this.request('bug/project');
-    console.log(res.project);
     return res.project;
+  }
+
+  static async getProject(name) {
+    let res = await this.request(`bug/projectbugs/${name}`);
+    return res.project;
+  }
+
+  /** Create a new bug */
+
+  static async newBug(data) {
+    let res = await this.request('bug', data, 'post');
+
+    return res.bug;
+  }
+
+  /** Update status of a bug */
+
+  static async updateBug(id, data) {
+    let res = await this.request(`bug/${id}`, data, 'patch');
+    return res.bug;
   }
 
   /** User methods */
@@ -77,7 +96,6 @@ class ElimibugApi {
 
   static async saveProfile(username, data) {
     let res = await this.request(`users/${username}`, data, 'patch');
-    console.log(res.user);
     return res.user;
   }
 
@@ -87,21 +105,6 @@ class ElimibugApi {
     let res = await this.request(`users/${username}`);
     return res.user;
   }
-
-  //   /** Jobs methods */
-
-  //   /** Get list of jobs (filtered by title if not undefined) */
-
-  //   static async getJobs(title) {
-  //     let res = await this.request('jobs', { title });
-  //     return res.jobs;
-  //   }
-
-  //   /** Apply to a job */
-
-  //   static async applyToJob(username, id) {
-  //     await this.request(`users/${username}/jobs/${id}`, {}, 'post');
-  //   }
 }
 
 // // for now, put token ("testuser" / "password" on class)

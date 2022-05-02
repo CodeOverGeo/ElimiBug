@@ -19,6 +19,9 @@
     "priority": {
       "type": "string"
     },
+    "user_id": {
+      "type": "integer"
+    },
     "lastStatus": {
       "type": "string"
     }

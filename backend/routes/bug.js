@@ -25,14 +25,14 @@ const router = new express.Router();
  */
 
 router.post('/', async function (req, res, next) {
-  console.log(req);
   try {
     const validator = jsonschema.validate(req.body, bugNewSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new BadRequestError(errs);
     }
-
+    console.log(req.body);
+    req.body.last_status = req.body.last_status || 'submitted';
     const bug = await Bug.create(req.body);
     return res.status(201).json({ bug });
   } catch (err) {
@@ -41,12 +41,8 @@ router.post('/', async function (req, res, next) {
 });
 
 /** GET /  =>
- *   { companies: [ { handle, name, description, numEmployees, logoUrl }, ...] }
+ *   { bug: [ { id, name, description, priority, lastStatus }, ...] }
  *
- * Can filter on provided search filters:
- * - minEmployees
- * - maxEmployees
- * - nameLike (will find case-insensitive, partial matches)
  *
  * Authorization required: none
  */
@@ -67,9 +63,26 @@ router.get('/', async function (req, res, next) {
   }
 });
 
+/** GET /  =>
+ *   { project: [ { id, name, description, priority, lastStatus }, ...] }
+ *
+ *
+ * Authorization required: none
+ */
+
 router.get('/project', async function (req, res, next) {
   try {
     const project = await Bug.projectLookup();
+
+    return res.json({ project });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.get('/projectbugs/:name', async function (req, res, next) {
+  try {
+    const project = await Bug.projectBugLookup(req.params.name);
 
     return res.json({ project });
   } catch (err) {
@@ -123,7 +136,7 @@ router.patch(
   }
 );
 
-/** DELETE /[bugName]  =>  { deleted: handle }
+/** DELETE /[bugName]  =>  { deleted: bugName }
  *
  * Authorization: admin
  */
@@ -133,7 +146,6 @@ router.delete(
   /** ensureAdmin, */ async function (req, res, next) {
     try {
       const delBug = await Bug.remove(req.params.id);
-      console.log(delBug);
       return res.json({ deleted: delBug.bug_name });
     } catch (err) {
       return next(err);

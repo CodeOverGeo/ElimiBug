@@ -8,6 +8,8 @@ import LoginForm from '../Auth/LoginForm/LoginForm';
 import SignupForm from '../Auth/SignupForm/SignupForm';
 import PrivateRoute from './PrivateRoute';
 import ProjectList from '../Project/ProjectList/ProjectList';
+import ProjectDetail from '../Project/ProjectDetail/ProjectDetail';
+import BugForm from '../BugForm/BugForm';
 
 /** Routes for site
  *
@@ -35,10 +37,20 @@ function Routing({ login, signup }) {
 
         <Route
           exact
-          path="/bug/:handle"
+          path="/bug/:id"
           element={
             <PrivateRoute>
               <BugDetail />
+            </PrivateRoute>
+          }
+        ></Route>
+
+        <Route
+          exact
+          path="/bugs/new"
+          element={
+            <PrivateRoute>
+              <BugForm />
             </PrivateRoute>
           }
         ></Route>
@@ -52,6 +64,17 @@ function Routing({ login, signup }) {
             </PrivateRoute>
           }
         ></Route>
+
+        <Route
+          exact
+          path="/project/:name"
+          element={
+            <PrivateRoute>
+              <ProjectDetail />
+            </PrivateRoute>
+          }
+        ></Route>
+
         <Route
           exact
           path="/profile"

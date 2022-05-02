@@ -8,7 +8,7 @@ CREATE DATABASE elimibug;
 \i elimibug-schema.sql
 \i elimibug-seed.sql
 
-\echo 'Delete and recreate jobly_test db?'
+\echo 'Delete and recreate elimibug-test db?'
 \prompt 'Return for yes or control-C to cancel > ' foo
 
 DROP DATABASE elimibug_test;

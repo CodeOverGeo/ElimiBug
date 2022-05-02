@@ -5,7 +5,7 @@ import './ProjectCard.css';
 
 function ProjectCard({ name, count }) {
   return (
-    <LinkContainer to={`/bugs`}>
+    <LinkContainer to={`/project/${name}`}>
       <Card style={{ width: '70vw' }} className="ProjectCard">
         <Card.Body>
           <Card.Title>{name}</Card.Title>
