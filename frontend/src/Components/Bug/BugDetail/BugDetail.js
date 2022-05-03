@@ -63,7 +63,8 @@ function BugDetail() {
           </Card.Header>
           <Card.Title>{bug.bugName}</Card.Title>
           <Card.Subtitle>{bug.description}</Card.Subtitle>
-          <Card.Text>{bug.lastStatus}</Card.Text>
+          <Card.Text>Current status: {bug.lastStatus}</Card.Text>
+          <Card.Text>Set next status to:</Card.Text>
           {nextStatus ? (
             <Button size="sm" onClick={handleClick}>
               {nextStatus}
