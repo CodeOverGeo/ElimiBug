@@ -13,6 +13,8 @@ const statuses = [
   'released',
 ];
 
+// {submitted: 1, approved: 2, }
+
 function BugDetail() {
   const { id } = useParams();
 

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import UserContext from '../Auth/UserContext';
 
@@ -49,7 +49,10 @@ function Navigation({ logout }) {
     <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
       <Container>
         <LinkContainer to="/">
-          <Navbar.Brand>Elimibug</Navbar.Brand>
+          <Navbar.Brand>
+            <img src="BugLogo.png" alt="Bug Logo" width="40" height="40" />
+            Elimibug
+          </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

@@ -7,6 +7,8 @@ function BugCard({ bugName, project, description, priority, id, lastStatus }) {
   let color =
     priority === 'low' ? 'blue' : priority === 'medium' ? 'green' : 'red';
 
+  // {low: 'blue', medium: 'green'}
+
   return (
     <LinkContainer to={`/bug/${id}`}>
       <Card style={{ width: '70vw' }} className="BugCard">

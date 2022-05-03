@@ -34,6 +34,16 @@ To fix a bug or enhance an existing module, follow these steps:
 - npm start for backend will deploy on port 3001
 - npm start for frontend will deploy on port 3000
 
+## Login
+
+Regular User
+Username: 'testuser'
+Password: 'password'
+
+Admin User:
+Username: 'testadmin'
+Password: 'password'
+
 ## Built with
 
 - <img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original-wordmark.svg" title="React" alt="React" width="40" height="40"/>
