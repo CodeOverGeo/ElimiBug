@@ -20,7 +20,9 @@ function BugCard({ bugName, project, description, priority, id, lastStatus }) {
           <Card.Title>{bugName}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{project}</Card.Subtitle>
           <Card.Text className="text-center">{description}</Card.Text>
-          <Card.Text className="text-center">{lastStatus}</Card.Text>
+          <Card.Text className="text-center">
+            Current status: {lastStatus}
+          </Card.Text>
         </Card.Body>
       </Card>
     </LinkContainer>
