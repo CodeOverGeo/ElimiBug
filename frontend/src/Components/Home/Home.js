@@ -28,7 +28,7 @@ function Homepage() {
                 className="btn btn-primary font-weight-bold mr-3"
                 to="/signup"
               >
-                <Button>Sign in</Button>
+                <Button>Sign Up</Button>
               </LinkContainer>
             </Stack>
           </span>
